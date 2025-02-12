@@ -6,10 +6,9 @@ engine = create_engine("sqlite:///school.db")
 session_local = sessionmaker(bind=engine)
 base = declarative_base()
 
-
 def get_db():
+    session = session_local()
     try:
-        session = session_local()
         yield session
     finally:
         session.close()
