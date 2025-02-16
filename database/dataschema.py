@@ -1,16 +1,15 @@
 from sqlalchemy import Column,Integer,String,ForeignKey,Boolean
 from sqlalchemy.orm.relationships import Relationship
-
 from .db import base
 
 
 class Majors(base):
     __tablename__ = "Majors"
-    
     id = Column(Integer,primary_key=True)
     name = Column(String(20))
     Student = Relationship("Students",back_populates="major")
-
+    clas = Relationship("Classes",back_populates="major")
+    
 class Admins(base):
     __tablename__ = "Admins"
     id = Column(Integer,primary_key=True)
@@ -29,14 +28,13 @@ class Classes(base):
     id = Column(Integer,primary_key=True)
     name = Column(String(20))
     admins_id = Column(Integer,ForeignKey("Admins.id"))
+    major_id = Column(Integer,ForeignKey("Majors.id"))
+    major = Relationship("Majors",back_populates="clas")
     admin = Relationship("Admins",back_populates="clas")
-    natural_code = Column(Integer)
-    
     Student = Relationship("Students",back_populates="clas")
 
 class Students(base):
     __tablename__ = "Students"
-    
     id = Column(Integer,primary_key=True,unique=True)
     name = Column(String(20))
     last_name = Column(String(20))

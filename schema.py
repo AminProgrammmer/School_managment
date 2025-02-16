@@ -32,3 +32,10 @@ class Admin_Detail(BaseModel):
     number : str
     email : str
     is_manager:bool
+
+
+class Class_Base(BaseModel):
+    name :str
+    admins_id :int
+    major_id :int
+    

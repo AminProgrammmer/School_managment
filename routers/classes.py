@@ -1,17 +1,15 @@
-# from fastapi import APIRouter,Depends
+from fastapi import APIRouter,Depends
+from sqlalchemy.orm.session import Session
+from database.db import get_db
+from database import db_classes
+from schema import Class_Base
 
-# from sqlalchemy.orm.session import Session
+from authentication.authentication import RoleCheck
+router = APIRouter(prefix="/class",tags=["class"])
 
-# from database.db import get_db
-# from database import db_admins
-# from schema import Admin_Base,Admin_Detail
-
-# from authentication.authentication import RoleCheck
-# router = APIRouter(prefix="/admin",tags=["admin"])
-
-# @router.post("/create")
-# def add_class(data_user:Admin_Base ,db:Session=Depends(get_db)):
-#     return db_admins.add_admin(data=data_user,db=db)
+@router.post("/create")
+def add_class(data_class:Class_Base ,db:Session=Depends(get_db)):
+    return db_classes.add_class(data=data_class,db=db)
 
 # @router.get("/detail{id}")
 # def detail_by_id(id:int,db:Session=Depends(get_db),role=Depends(RoleCheck(True))):
