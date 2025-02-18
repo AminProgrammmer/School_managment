@@ -20,9 +20,12 @@ async def start_24h(db:Session):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     session = session_local()
-    await start_24h(session)
-    yield
-    session.close()
+    task = asyncio.create_task(start_24h(session))
+    try:
+        yield
+    finally:
+        task.close()
+        session.close()
 
 
 

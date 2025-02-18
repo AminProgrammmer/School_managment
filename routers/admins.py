@@ -7,7 +7,7 @@ from database import db_admins
 from schema import Admin_Base,Admin_Detail
 
 from authentication.authentication import RoleCheck
-router = APIRouter(prefix="/admin",tags=["admin"])
+router = APIRouter(prefix="/admins",tags=["admin"])
 
 @router.post("/create")
 def add_admin(data_user:Admin_Base ,db:Session=Depends(get_db)):
@@ -16,6 +16,10 @@ def add_admin(data_user:Admin_Base ,db:Session=Depends(get_db)):
 @router.get("/detail{id}")
 def detail_by_id(id:int,db:Session=Depends(get_db),role=Depends(RoleCheck(True))):
     return db_admins.detail_admin(id=id,db=db)
+
+@router.get("/detail")
+def detail_all(db:Session=Depends(get_db),role=Depends(RoleCheck(True))):
+    return db_admins.admins(db=db)
 
 @router.delete("/delete{id}")
 def remove_admin(id:int,db:Session=Depends(get_db)):

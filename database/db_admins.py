@@ -27,6 +27,9 @@ def add_admin(db: Session, data):
         print(f"Error: {e}")
         raise HTTPException(detail="please call with support to site .An error occurred while adding the admin , maybe you enter an unique natural code or email or phone number.", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+def admins(db):
+    return db.query(Admins).all()
+
 
 def detail_admin(id,db):
     return db.query(Admins).where(Admins.id == id).first()
