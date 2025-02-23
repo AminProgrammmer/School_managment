@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from authentication import authentication
-from routers import admins,lifespan,classes
+from routers import admins,lifespan,classes,major
 
 from database.db import base,engine
 
@@ -9,6 +9,7 @@ app.include_router(authentication.router)
 
 app.include_router(admins.router)
 app.include_router(classes.router)
+app.include_router(major.router)
 
 app.include_router(lifespan.router)
 

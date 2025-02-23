@@ -1,4 +1,8 @@
 from pydantic import BaseModel,field_validator,EmailStr
+import re
+
+class major_Base(BaseModel):
+    name:str
 
 class Admin_Base(BaseModel):
     name : str
@@ -7,6 +11,7 @@ class Admin_Base(BaseModel):
     number : str
     email : EmailStr
     password : str
+    major_id : int
     
     @field_validator("email")
     @classmethod
@@ -18,12 +23,19 @@ class Admin_Base(BaseModel):
     
     @field_validator("password")
     @classmethod
-    def validate_password(cls, value):
-        if len(value)<8:
-            raise ValueError("password must be grater than 8")
-        else:
-            return value
-
+    def validate_password(cls, v):
+        if len(v) < 8:
+            raise ValueError("Password must be at least 8 characters long")
+        if not re.search("[a-z]", v):
+            raise ValueError("Password must contain at least one lowercase letter")
+        if not re.search("[A-Z]", v):
+            raise ValueError("Password must contain at least one uppercase letter")
+        if not re.search("[0-9]", v):
+            raise ValueError("Password must contain at least one digit")
+        if not re.search("[@#$%^&+=]", v):
+            raise ValueError("Password must contain at least one special character (@#$%^&+=)")
+        return v
+    
 class Admin_Detail(BaseModel):
     id:int
     name : str
@@ -32,10 +44,10 @@ class Admin_Detail(BaseModel):
     number : str
     email : str
     is_manager:bool
+    major_id : int
 
 
 class Class_Base(BaseModel):
     name :str
-    admins_id :int
     major_id :int
-    
+

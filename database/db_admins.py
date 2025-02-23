@@ -14,7 +14,8 @@ def add_admin(db: Session, data):
             natural_code=data.natural_code,
             number=data.number,
             email = data.email,
-            password = Hash.bcrypt(data.password)
+            password = Hash.bcrypt(data.password),
+            major_id = data.major_id
         )
         if not new_admin:
             raise HTTPException(detail="Admin details not found", status_code=status.HTTP_404_NOT_FOUND)
@@ -25,7 +26,7 @@ def add_admin(db: Session, data):
     
     except Exception as e:
         print(f"Error: {e}")
-        raise HTTPException(detail="please call with support to site .An error occurred while adding the admin , maybe you enter an unique natural code or email or phone number.", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        raise HTTPException(detail=f"please call with support to site .An error occurred while adding the admin , maybe you enter an unique natural code or email or phone number. detail:{e}", status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def admins(db):
     return db.query(Admins).all()
