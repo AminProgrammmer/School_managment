@@ -1,7 +1,5 @@
 from fastapi import APIRouter,Depends
-
 from sqlalchemy.orm.session import Session
-
 from database.db import get_db
 from database import db_admins
 from schema import Admin_Base,Admin_Detail
@@ -22,5 +20,5 @@ def detail_all(db:Session=Depends(get_db),role=Depends(RoleCheck(True))):
     return db_admins.admins(db=db)
 
 @router.delete("/delete{id}")
-def remove_admin(id:int,db:Session=Depends(get_db)):
+def remove_admin(id:int,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):
     return db_admins.delete_admin(id=id,db=db)

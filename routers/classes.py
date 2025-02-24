@@ -17,9 +17,9 @@ def add_class(data_class:Class_Base ,db:Session=Depends(get_db),role = Depends(R
     return db_classes.add_class(data=data_class,db=db)
 
 @router.delete("/delete{id}")
-def remove_class(id:int,db:Session=Depends(get_db)):
+def remove_class(id:int,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):
     return db_classes.delete_class(id=id,db=db)
 
 @router.put("/edit{id}")
-def edit_class(id:int,data:Class_Base,db:Session=Depends(get_db)):
+def edit_class(id:int,data:Class_Base,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):
     return db_classes.edit_class(id,data,db)

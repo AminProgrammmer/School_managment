@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 from .db import base
 
+
 class Students(base):
     __tablename__ = "students"
     id = Column(Integer, primary_key=True, unique=True)
@@ -15,6 +16,7 @@ class Students(base):
     major = relationship("Majors", back_populates="students")
     grade = relationship("Grade", back_populates="student")
 
+
 class Majors(base):
     __tablename__ = "majors"
     id = Column(Integer, primary_key=True)
@@ -23,6 +25,7 @@ class Majors(base):
     classes = relationship("Classes", back_populates="major")
     books = relationship("Book", back_populates="major")
     admins = relationship("Admins", back_populates="major")
+
 
 class Book(base):
     __tablename__ = "books"
@@ -40,7 +43,7 @@ class Grade(base):
     student_id = Column(Integer, ForeignKey("students.id"))
     book = relationship("Book", back_populates="grades")
     student = relationship("Students", back_populates="grade")
-
+ 
 class Admins(base):
     __tablename__ = "admins"
     id = Column(Integer, primary_key=True)

@@ -18,9 +18,9 @@ def add_major(data_major:major_Base ,db:Session=Depends(get_db),role = Depends(R
     return db_major.add_major(data=data_major,db=db)
 
 @router.delete("/delete{id}")
-def remove_major(id:int,db:Session=Depends(get_db)):
+def remove_major(id:int,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):
     return db_major.delete_major(id=id,db=db)
 
 @router.put("/edit{id}")
-def edit_major(id:int,data:major_Base,db:Session=Depends(get_db)):
+def edit_major(id:int,data:major_Base,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):
     return db_major.edit_major(id,data,db)

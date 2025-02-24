@@ -51,3 +51,7 @@ class Class_Base(BaseModel):
     name :str
     major_id :int
 
+
+class book_Base(BaseModel):
+    name : str
+    major_id : int
