@@ -11,12 +11,12 @@ router = APIRouter(tags=['authentication'])
 
 @router.post("/token")
 def login_for_access_token(form_data :OAuth2PasswordRequestForm= Depends(),db:Session=Depends(get_db)):
-    user = db.query(Admins).where(Admins.natural_code==form_data.username).first()
+    user = db.query(Admins).where(Admins.national_code==form_data.username).first()
     if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="user not found")
     elif password_hashing.Hash.verify(plain_password=form_data.password,hashed_password=user.password) == False:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="password incorrect")
-    token = create_access_token(data={"sub":user.natural_code})
+    token = create_access_token(data={"sub":user.national_code})
     return {"access_token": token, "token_type": "bearer"}
 
 class RoleCheck:

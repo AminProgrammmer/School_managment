@@ -11,7 +11,7 @@ def add_admin(db: Session, data):
         new_admin = Admins(
             name=data.name,
             last_name=data.last_name,
-            natural_code=data.natural_code,
+            national_code=data.national_code,
             number=data.number,
             email = data.email,
             password = Hash.bcrypt(data.password),

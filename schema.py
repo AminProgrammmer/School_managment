@@ -7,7 +7,7 @@ class major_Base(BaseModel):
 class Admin_Base(BaseModel):
     name : str
     last_name : str
-    natural_code : str
+    national_code : str
     number : str
     email : EmailStr
     password : str
@@ -40,7 +40,7 @@ class Admin_Detail(BaseModel):
     id:int
     name : str
     last_name : str
-    natural_code : str
+    national_code : str
     number : str
     email : str
     is_manager:bool
@@ -55,3 +55,11 @@ class Class_Base(BaseModel):
 class book_Base(BaseModel):
     name : str
     major_id : int
+
+class Student_Base(BaseModel):
+    name :str
+    last_name :str
+    national_code :str
+    number:str
+    class_id:int
+    major_id :int

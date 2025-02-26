@@ -38,8 +38,8 @@ def create_access_token(data:dict,expires_delta : timedelta|None=None):
     return encoded_jwt
 
 
-def authenticate_user(db: Session, natural_code: str, password: str):
-    user = db.query(Admins).where(Admins.natural_code==natural_code).first()
+def authenticate_user(db: Session, national_code: str, password: str):
+    user = db.query(Admins).where(Admins.national_code==national_code).first()
     if not user:
         return False
     elif Hash.verify(plain_password=password,hashed_password=user.password) == False:
@@ -55,13 +55,13 @@ def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        natural_code: str = payload.get("sub")
-        if natural_code is None:
+        national_code: str = payload.get("sub")
+        if national_code is None:
             raise credentials_exception
-        token_data = TokenData(username=natural_code)
+        token_data = TokenData(username=national_code)
     except JWTError:
         raise credentials_exception
-    user = db.query(Admins).where(Admins.natural_code==natural_code).first()
+    user = db.query(Admins).where(Admins.national_code==national_code).first()
     if user is None:
         raise credentials_exception
     return user
