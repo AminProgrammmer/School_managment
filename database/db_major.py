@@ -1,11 +1,12 @@
 from database.dataschema import Majors
-
+from sqlalchemy.orm import Session
 from fastapi.exceptions import HTTPException
 from fastapi import status
-def majors(db):
+from schema import major_Base
+def get_all_major(db:Session) -> list:
     return db.query(Majors).all()
 
-def add_major(data,db):
+def add_major(data:major_Base,db:Session) -> str|dict:
     new_major = Majors(
         name = data.name
     )
@@ -15,28 +16,33 @@ def add_major(data,db):
         db.refresh(new_major)
         return "new major added"
     except Exception as e:
-        raise HTTPException(detail=f"you got the error call with mangers of the site : {e}",status_code=status.HTTP_400_BAD_REQUEST)        
+        raise HTTPException(
+    detail=f"you got the error call with mangers of the site : {e}",
+    status_code=status.HTTP_400_BAD_REQUEST)        
     
 
-def delete_major(id,db):
+def delete_major(id:int,db:Session) -> str|dict:
     major_item = db.query(Majors).where(Majors.id == id).first()
-    if major_item:
-        db.delete(major_item)
-        db.commit()
-        return "your enter class is deleted"
-    else :
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="your enter class id not found")
+    if not major_item:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="your enter major id not found")
+    
+    db.delete(major_item)
+    db.commit()
+    return "your enter class is deleted"
 
 
-def edit_major(id,data,db):
-    major_item = db.query(Majors).where(Majors.id  == id).first().update(
+def edit_major(id:int,data:major_Base,db:Session) -> str|dict:
+    major_item = db.query(Majors).where(
+        Majors.id  == id).first().update(
         {
             "name" : data.name,
         }
     )
-    if major_item:
-        db.commit()
-        return "your enter class is edited"
-    else :
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="your enter class id not found")
+    if not major_item:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="your enter class id not found")
+    db.commit()
+    return "your enter class is edited"
+
         

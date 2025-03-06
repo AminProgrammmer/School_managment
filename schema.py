@@ -63,3 +63,16 @@ class Student_Base(BaseModel):
     number:str
     class_id:int
     major_id :int
+    
+class Grade_base(BaseModel):
+    gpa : int
+    book_id : int
+    student_id : int
+    @field_validator("gpa")
+    @classmethod
+    def validate_gpa(cls,val):
+        if val > 20:
+            raise ValueError("you can not enter gpa grater than 20 ")
+        elif val < 0 :
+            raise ValueError("you can not enter gpa lower than 0 ")
+        return val

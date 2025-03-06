@@ -10,7 +10,7 @@ router = APIRouter(prefix="/Books",tags=["Book"])
 
 @router.get("")
 def books(db:Session=Depends(get_db)):
-    return db_book.books(db=db)
+    return db_book.get_all_book(db=db)
 
 @router.post("/create")
 def add_book(data_book:book_Base ,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):

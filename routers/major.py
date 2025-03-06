@@ -11,7 +11,7 @@ router = APIRouter(prefix="/Majors",tags=["major"])
 
 @router.get("")
 def majors(db:Session=Depends(get_db)):
-    return db_major.majors(db=db)
+    return db_major.get_all_major(db=db)
 
 @router.post("/create")
 def add_major(data_major:major_Base ,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):

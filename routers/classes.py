@@ -10,7 +10,7 @@ router = APIRouter(prefix="/classes",tags=["class"])
 
 @router.get("")
 def classes(db:Session=Depends(get_db)):
-    return db_classes.classes(db=db)
+    return db_classes.get_all_class(db=db)
 
 @router.post("/create")
 def add_class(data_class:Class_Base ,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):

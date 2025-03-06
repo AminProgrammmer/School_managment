@@ -17,7 +17,7 @@ def detail_by_id(id:int,db:Session=Depends(get_db),role=Depends(RoleCheck(True))
 
 @router.get("/detail")
 def detail_all(db:Session=Depends(get_db),role=Depends(RoleCheck(True))):
-    return db_admins.admins(db=db)
+    return db_admins.get_admins(db=db)
 
 @router.delete("/delete{id}")
 def remove_admin(id:int,db:Session=Depends(get_db),role = Depends(RoleCheck(True))):
